@@ -1,0 +1,1034 @@
+<script language="javascript">
+$(function() {
+	$("#aplcbl_date_from").datepicker();
+	$("#aplcbl_date_to").datepicker();
+	$('#aplcbl_hour_from').timepicker({});
+	$('#aplcbl_hour_to').timepicker({});
+
+
+	$("#aplcbl_date_from_offer").datepicker();
+	$("#aplcbl_date_to_offer").datepicker();
+	$('#aplcbl_hour_from_offer').timepicker({});
+	$('#aplcbl_hour_to_offer').timepicker({});
+
+});
+
+$(document).ready(function() {
+
+		$('#aplcbl_date_from').focus(function(){
+				$('#err_c').html('');
+		});
+		$('#aplcbl_date_to').focus(function(){
+				$('#err_c').html('');
+		});
+		$('#aplcbl_date_from_offer').focus(function(){
+				$('#err_c_offer').html('');
+		});
+		$('#aplcbl_date_to_offer').focus(function(){
+				$('#err_c_offer').html('');
+		});
+                $('#aplcbl_hour_from').focus(function(){
+				$('#err_tim').html('');
+		});
+		$('#aplcbl_hour_to').focus(function(){
+				$('#err_tim').html('');
+		});
+                $('#aplcbl_hour_from_offer').focus(function(){
+				$('#err_tim_offer').html('');
+		});
+		$('#aplcbl_hour_to_offer').focus(function(){
+				$('#err_tim_offer').html('');
+		});
+
+
+                $('.ExpiredD').hide();
+	});
+
+function showactive() {
+                window.allhide();
+	        $('#list_item_details').show();
+			$('.InactiveD').hide();
+			$('.ActiveD').show();
+			$('.ExpiredD').hide();
+                        if($("div:[class*=ActiveD]").length == 0){
+                             $('#norecords_for_active').show();
+                        }
+                        else {
+                            var act_div = $("div:[class*=ActiveD]").length;
+                            var exp_div = $("div.ActiveD.ExpiredD").length;
+
+                             if((act_div - exp_div ) < 1){
+                                $('#norecords_for_active').show();
+                             }
+                        }
+}
+function showInactive() {
+                 window.allhide();
+                  $('#list_item_details').show();
+
+			$('.ActiveD').hide();
+			$('.InactiveD').show();
+			$('.ExpiredD').hide();
+
+                        if($("div:[class*=InactiveD]").length == 0){
+                             $('#norecords_for_inactive').show();
+                        }else {
+                            var in_act_div = $("div:[class*=InactiveD]").length;
+                            var in_exp_div = $("div.InactiveD.ExpiredD").length;
+                             if((in_act_div - in_exp_div ) < 1){
+                                $('#norecords_for_inactive').show();
+                             }
+                        }
+}
+function showAll() {
+               
+                window.allhide();
+	        $('#list_item_details').show();
+                $('.InactiveD').show();
+	        $('.ActiveD').show();
+                $('.ExpiredD').hide();
+                var act_elems = $("div:[class*=ctiveD]").length;
+                var exp_elems = $("div:[class~=ExpiredD]").length;
+
+                if(act_elems-exp_elems < 1)
+                {
+                    $('#norecords_for_all').show();
+                }
+}
+function showExpired() {
+                window.allhide();
+	        $('#list_item_details').show();
+			$('.InactiveD').hide();
+			$('.ActiveD').hide();
+			$('.ExpiredD').show();
+                        if($("div:[class*=ExpiredD]").length == 0){
+                             $('#norecords_for_expired').show();
+                        }
+}
+function allhide(){
+    $('#norecords_for_inactive').hide();
+    $('#norecords_for_active').hide();
+    $('#norecords_for_all').hide();
+    $('#norecords_for_expired').hide();
+
+}
+
+	$(document).ready(function(){
+		$("#hidediv").hide();
+		$('#hidestaffdiscount').hide();
+		$('#hidedatediscount').hide();
+
+		$("#hidedivoffer").hide();
+		$('#hidestaffoffer').hide();
+		$('#hidedateoffer').hide();
+
+		$('#offertable').hide();
+		$('#discountcoupontable').hide();
+		$('#discount_display_text').hide();
+		$('#cover').hide();
+
+
+			$.ajax({
+				url: "<?php echo base_url(); ?>admin/coupon/GetRandomCode/1",
+				type: "POST",
+				success: function(msg) {
+					$('#coupon_code').val(msg);
+				}
+			});
+
+			$('#button1').click(function(e){
+                                $('#discount_percent_type').html("");
+				$('#discount_display_text').show();
+				$('#cover').show();
+				var discountcoupontableDispSet = $('#discountcoupontable').css('display');
+				var offertableDispSet = $('#offertable').css('display');
+				if(discountcoupontableDispSet == 'none')
+				{
+					$('#offertable').hide();
+					$('#discountcoupontable').show();
+
+					$.ajax({
+						url: "<?php echo base_url(); ?>admin/coupon/GetRandomCode/1",
+						type: "POST",
+						success: function(msg) {
+							$('#coupon_code').val(msg);
+						}
+
+
+					});
+				}else{
+					$('#discountcoupontable').hide();
+					$('#cover').hide();
+					$("#first_time_use_only").attr('checked', false);
+					$("#one_time_use_only").attr('checked', false);
+				}
+			});
+
+			$('#button2').click(function(e){
+                                $('#discount_percent_type').html("Offer");
+				$('#discount_display_text').show();
+				$('#cover').show();
+				var discountcoupontableDispSet = $('#discountcoupontable').css('display');
+				var offertableDispSet = $('#offertable').css('display');
+				if(offertableDispSet == 'none')
+				{
+					$('#discountcoupontable').hide();
+					$('#offertable').show();
+
+					$.ajax({
+						url: "<?php echo base_url(); ?>admin/coupon/GetRandomCode/2",
+						type: "POST",
+						success: function(msg) {
+							$('#coupon_code_o').val(msg);
+						}
+
+
+					});
+				}else{
+					$('#offertable').hide();
+					$('#cover').hide();
+					$("#first_time_use_only_offer").attr('checked', false);
+					$("#one_time_use_only_offer").attr('checked', false);
+				}
+			});
+
+			$('#submit_coupon').click(function(e){
+				var $formId = $('#f1');
+				var formAction = $formId.attr('action');
+				var $error = $('<span class="error"></span>');
+				var errorcount = 0;
+
+				$('li',$formId).removeClass('error');
+				$('span.error').remove();
+				$('#f1 .required').each(function(){
+					var inputVal = $(this).val();
+					var $parentTag = $(this).parent();
+					if($.trim(inputVal) == ''){
+						$parentTag.addClass('error').append($error.clone().text('Required Field'));
+						errorcount++;
+
+					}
+				});
+
+                                if(errorcount >0){
+                                    return false;
+                                }
+
+				var datearray =[];
+				$('#f1 .datevali').each(function(){
+					var inputVal = $(this).val();
+					datearray.push(inputVal);
+				});
+
+                                if((datearray[0] == "" & datearray[1] != "")||(datearray[0] != "" & datearray[1] == ""))
+                                {
+                                    $('#err_c').html('Please fill the dates properly.');
+                                    errorcount++;
+                                    return false;
+                                }
+
+				var startDate = new Date(datearray[0]);
+				var endDate = new Date(datearray[1]);
+if(endDate < startDate ) {
+$('#err_c').html('End date should be grater than Start date.');
+errorcount++;
+                    return false;
+}
+
+               var timearray =[];
+				$('#f1 .timevali').each(function(){
+					var input_Val = $(this).val();
+					timearray.push(input_Val);
+				});
+
+                if((timearray[0] == "" & timearray[1] != "")||(timearray[0] != "" & timearray[1] == "")){
+                    $('#err_tim').html('Please fill the time properly.');
+                    errorcount++;
+                    return false;
+                }
+
+				e.preventDefault();
+				if ($('span.error').length > 0) {
+						$('span.error').each(function(){
+							var distance = 5;
+							var width = $(this).outerWidth();
+							var start = width + distance;
+							$(this).show().css({
+								display: 'block',
+								opacity: 0,
+								right: -start+'px'
+							})
+							.animate({
+								right: -width+'px',
+								opacity: 1
+							}, 'slow');
+						});
+				}
+				if( errorcount == 0){
+					 $.ajax({
+						   type: 'POST',
+						   url: $('#f1').attr('action'),
+						   data: $('#f1').serialize(),   
+						   success: function(data){
+							   $('#msg').html(data);
+							  window.location.reload(true);
+						   }
+					});
+				}
+			});
+			$('#submit_offer').click(function(e){
+				var $formId = $('#f2');
+				var formAction = $formId.attr('action');
+				var $error = $('<span class="error"></span>');
+				var errorcount = 0;
+				$('li',$formId).removeClass('error');
+				$('span.error').remove();
+				$('#f2 .required').each(function(){
+					var inputVal = $(this).val();
+					var $parentTag = $(this).parent();
+					if($.trim(inputVal) == ''){
+						$parentTag.addClass('error').append($error.clone().text('Required Field'));
+						errorcount++;
+					}
+				});
+                if(errorcount > 0){
+                    return false;
+                }
+				var datearray =[];
+				$('#f2 .datevalioffer').each(function(){
+					var inputVal = $(this).val();
+					datearray.push(inputVal);
+				});
+				var startDate = new Date(datearray[0]);
+				var endDate = new Date(datearray[1]);
+				if(endDate < startDate ) {
+					$('#err_c_offer').html('Start date should be grater than End date.');
+					errorcount++;
+				}
+               var timearray =[];
+				$('#f2 .timevalioffer').each(function(){
+					var input_Val = $(this).val();
+					timearray.push(input_Val);
+				});
+                if((timearray[0] == "" & timearray[1] != "")||(timearray[0] != "" & timearray[1] == "")){
+                    $('#err_tim_offer').html('Please fill the time properly.');
+                    errorcount++;
+                    return false;
+                }
+				e.preventDefault();
+				if ($('span.error').length > 0) {
+						$('span.error').each(function(){
+							var distance = 5;
+							var width = $(this).outerWidth();
+							var start = width + distance;
+							$(this).show().css({
+								display: 'block',
+								opacity: 0,
+								right: -start+'px'
+							})
+							.animate({
+								right: -width+'px',
+								opacity: 1
+							}, 'slow');
+						});
+				}
+				if(errorcount == 0){
+					 $.ajax({
+						   type: 'POST',
+						   url: $('#f2').attr('action'),
+						   data: $('#f2').serialize(),
+						   success: function(data){
+							  $('#msg_o').html(data);
+							  window.location.reload(true);
+						   }
+					});
+				}
+			});
+			$('.required').focus(function(){
+				var $parent = $(this).parent();
+				$parent.removeClass('error');
+				$('span.error',$parent).fadeOut();
+			});
+
+	});
+function DeleteCoupon(CouponId){
+	var TblId = "coupDispDivId"+CouponId;
+	var r=confirm("Are You sure, you want to Delete this Coupon?")
+	if (r==true){
+	$.ajax({
+		url: "<?php echo base_url(); ?>admin/coupon/deleteCoupon/"+CouponId,
+		type: "POST",
+		success: function(msg) {
+			if (msg == 1){
+				$("#"+TblId).remove();
+			}else{
+				alert('There is some error processing your request');
+			}
+		}
+	});
+	}
+}
+function change_status_to_on(id,identifier){
+        var parentclass = $('#'+identifier).closest('div:[id^=coupDispDivId]').attr('class');
+        var if_expired = parentclass.search("ExpiredD");
+        var newclass = "";
+        if(if_expired > 0){
+            newclass = "blue-bg-coupon ActiveD ExpiredD";
+        }else{
+            newclass = "blue-bg-coupon ActiveD";
+        }
+	var status = 1;
+	$.ajax({
+		url: "<?php echo base_url(); ?>admin/coupon/changeStatus/"+status+"/"+id,
+		type: "POST",
+		success: function(msg) {
+			if (msg == 1){
+				$("#on"+id).show();
+				$("#off"+id).hide();
+				$("#coupDispDivId"+id).css('background-color', 'none');
+				$("#coupDispDivId"+id).css('opacity', '100');
+				$("#coupDispscrollId"+id).css("overflow-x", "hidden");
+				$("#coupDispscrollId"+id).css("overflow-y", "auto");
+				$("#coupDispDivId"+id).attr("class",newclass);
+			}else{
+				alert('There is some error processing your request');
+			}
+		}
+	});
+}
+function change_status_to_off(id,identifier){
+        var parentclass = $('#'+identifier).closest('div:[id^=coupDispDivId]').attr('class');
+        var if_expired = parentclass.search("ExpiredD");
+        var newclass = "";
+        if(if_expired > 0){
+            newclass = "blue-bg-coupon InactiveD ExpiredD";
+        }else{
+            newclass = "blue-bg-coupon InactiveD";
+        }
+	var status = 0;
+	$.ajax({
+		url: "<?php echo base_url(); ?>admin/coupon/changeStatus/"+status+"/"+id,
+		type: "POST",
+		success: function(msg) {
+			if (msg == 1){
+				$("#on"+id).hide();
+				$("#off"+id).show();
+				$("#coupDispDivId"+id).css('background-color', '#b9b9b8');
+				$("#coupDispDivId"+id).css('opacity', '0.4');
+				$("#coupDispscrollId"+id).css("overflow", "hidden");
+				$("#coupDispDivId"+id).attr("class",newclass);
+			}else{
+				alert('There is some error processing your request');
+			}
+		}
+	});
+}
+function change_status_to_on_offer(id,identifier){
+        var parentclass = $('#'+identifier).closest('div:[id^=coupDispDivId]').attr('class');
+        var if_expired = parentclass.search("ExpiredD");
+        var newclass = "";
+        if(if_expired > 0){
+            newclass = "green-bg-coupon ActiveD ExpiredD";
+        }else{
+            newclass = "green-bg-coupon ActiveD";
+        }
+
+	var status = 1;
+	$.ajax({
+		url: "<?php echo base_url(); ?>admin/coupon/changeStatus/"+status+"/"+id,
+		type: "POST",
+		success: function(msg){
+			if (msg == 1){
+				$("#on"+id).show();
+				$("#off"+id).hide();
+				$("#coupDispDivId"+id).css('background-color', 'none');
+				$("#coupDispDivId"+id).css('opacity', '100');
+				$("#coupDispscrollId"+id).css("overflow-x", "hidden");
+				$("#coupDispscrollId"+id).css("overflow-y", "auto");
+				$("#coupDispDivId"+id).attr("class",newclass);
+			}else{
+				alert('There is some error processing your request');
+			}
+		}
+	});
+}
+function change_status_to_off_offer(id,identifier){
+        var parentclass = $('#'+identifier).closest('div:[id^=coupDispDivId]').attr('class');
+        var if_expired = parentclass.search("ExpiredD");
+        var newclass = "";
+        if(if_expired > 0){
+            newclass = "green-bg-coupon InactiveD ExpiredD";
+        }else{
+            newclass = "green-bg-coupon InactiveD";
+        }
+	var status = 0;
+	$.ajax({
+		url: "<?php echo base_url(); ?>admin/coupon/changeStatus/"+status+"/"+id,
+		type: "POST",
+		success: function(msg) {
+			if (msg == 1){
+				$("#on"+id).hide();
+				$("#off"+id).show();
+				$("#coupDispDivId"+id).css('background-color', '#b9b9b8');
+				$("#coupDispDivId"+id).css('opacity', '0.4');
+				$("#coupDispscrollId"+id).css("overflow", "hidden");
+				$("#coupDispDivId"+id).attr("class",newclass);
+			}else{
+				alert('There is some error processing your request');
+			}
+		}
+	});
+}
+function showService(){
+	$('#hidediv').show();
+	$('#hidestaffdiscount').hide();
+	$('#hidedatediscount').hide();
+}
+function hideService(){
+	$('#hidediv').hide();
+}
+function showstaff(){
+	$('#hidestaffdiscount').show();
+	$('#hidediv').hide();
+	$('#hidedatediscount').hide();
+}
+function hidestaff(){
+	$('#hidestaffdiscount').hide();
+}
+function showdate(){
+	$('#hidediv').hide();
+	$('#hidedatediscount').show();
+	$('#hidestaffdiscount').hide();
+}
+function hidedate(){
+	$('#hidedatediscount').hide();
+}
+function displayServices(){
+	$('#showservice').html("");
+	var counter=0;
+	$('#showdiv').html('');
+			servicesArr = new Array();
+			$("input:checkbox[class=checkbox]:checked").each(function()
+			{
+
+				var value1= $(this).val();
+				servicesArr.push(value1);
+				counter=counter +1;
+
+			});
+			if(counter  != 0)
+			{
+				$('#showdiv').html(counter+" service selected");
+
+			}
+			else
+			{
+				$('#showdiv').html("Any Services");
+				$('#showservice').html("Any Services");
+
+			}
+			var json_servicesArr = JSON.stringify(servicesArr, null, 2);
+			$.ajax({
+			type: 'POST',
+			datatype:'json',
+			url:"<?php echo site_url('admin/coupon/showTextServicesAjax'); ?>",
+			data:"json_servicesArr="+json_servicesArr,
+			success:function(ser)
+			{
+
+			 	var obj = jQuery.parseJSON(ser);
+			 	services ="";
+				var counter =1;
+				 $.each(obj, function(index, value) {
+				 if(counter > 1) {
+						services=value+","+" "+services ;
+				} else {
+						services=value+" "+services ;
+				}
+				counter++;
+
+				});
+				$('#showservice').html(services);
+			}
+			});
+
+}
+function displayStaff(){
+	$('#showstaff').html("");
+	var counter=0;
+	$('#showstaffdiscount').html('');
+	staffArr = new Array();
+	$("input:checkbox[class=staff_checkbox]:checked").each(function(){
+		var value1= $(this).val();
+		staffArr.push(value1);
+		counter=counter +1;
+	});
+
+	if(counter  != 0){
+		$('#showstaffdiscount').html(counter+" Staff selected");
+
+	}else{
+		$('#showstaffdiscount').html("Any Staff");
+		$('#showstaff').html("Any Staff");
+	}
+	var json_staffArr = JSON.stringify(staffArr, null, 2);
+	$.ajax({
+		type: 'POST',
+		datatype:'json',
+		url:"<?php echo site_url('admin/coupon/showTextStaffAjax'); ?>",
+		data:"json_staffArr="+json_staffArr,
+		success:function(data){
+				var obj = jQuery.parseJSON(data);
+				var staff ="";
+				var counter =1;
+				$.each(obj, function(index, value) {
+					if(counter > 1) {
+						staff=value+","+" "+staff;
+					} else {
+						staff=value+" "+staff;
+					}
+					counter++;
+				});
+				$('#showstaff').html(staff);
+		}
+	});
+}
+function displayDate(){
+	var counter=0;
+	var dateshow="";
+	$('#showdatediscount').html('');
+	$('#showWeekday').html("");
+	$("input:checkbox[class=date_checkbox]:checked").each(function(){
+
+	var value1= $(this).val();
+	counter=counter +1;
+	if(value1==1){
+		if(dateshow!= "") {
+			dateshow+=", Sunday ";
+		} else {
+			dateshow+=" Sunday ";
+		}
+	}
+	if(value1==2)
+	{
+	    if(dateshow!= "") {
+			dateshow+=" , Monday ";
+		} else {
+			dateshow+=" Monday ";
+		}
+	}
+	if(value1==3){
+	    if(dateshow!= ""){
+			dateshow+=" , Tuesday ";
+		}else{
+			dateshow+=" Tuesday ";
+		}
+	}
+	if(value1==4){
+	    if(dateshow!= ""){
+			dateshow+=" , Wednesday ";
+		}else{
+			dateshow+=" Wednesday ";
+		}
+	}
+	if(value1==5){
+		if(dateshow!= ""){
+			dateshow+=" , Thursday ";
+		}else{
+			dateshow+=" Thursday ";
+		}
+	}
+
+	if(value1==6){
+		if(dateshow!= ""){
+			dateshow+=" , Friday ";
+		}else{
+			dateshow+=" Friday ";
+		}
+	}
+	if(value1==7){
+		if(dateshow!= ""){
+			dateshow+=" , Saturday ";
+		}else{
+			dateshow+=" Saturday ";
+		}
+	}
+	});
+	if(counter  != 0){
+		$('#showdatediscount').html(counter+" Date selected");
+	}
+	if(dateshow == ''){
+		dateshow = ' Any Day';
+	}
+		$('#showWeekday').html(dateshow);
+	}
+function showServiceoffer(){
+	$('#hidedivoffer').show();
+	$('#hidestaffoffer').hide();
+	$('#hidedateoffer').hide();
+}
+function hideServiceoffer(){
+	$('#hidedivoffer').hide();
+}
+function showstaffoffer(){
+	$('#hidestaffoffer').show();
+	$('#hidedivoffer').hide();
+	$('#hidedateoffer').hide();
+}
+function hidestaffoffer(){
+	$('#hidestaffoffer').hide();
+}
+function showdateoffer(){
+	$('#hidedivoffer').hide();
+	$('#hidedateoffer').show();
+	$('#hidestaffoffer').hide();
+}
+function hidedateoffer(){
+	$('#hidedateoffer').hide();
+}
+function displayServicesoffer(){
+	var counter=0;
+	$('#showdivoffer').html('');
+	$('#showservice').html('');
+	servicesArr = new Array();
+	$("input:checkbox[class=checkbox_offer]:checked").each(function(){
+		var value1= $(this).val();
+		servicesArr.push(value1);
+		counter=counter +1;
+	});
+	if(counter  != 0){
+		$('#showdivoffer').html(counter+" service selected");
+	}else{
+		$('#showdivoffer').html("Any Services");
+		$('#showservice').html("Any Services");
+	}
+	var json_servicesArr = JSON.stringify(servicesArr, null, 2);
+	$.ajax({
+	type: 'POST',
+	datatype:'json',
+	url:"<?php echo site_url('admin/coupon/showTextServicesAjax'); ?>",
+	data:"json_servicesArr="+json_servicesArr,
+	success:function(ser){
+	 	var obj = jQuery.parseJSON(ser);
+	 	services ="";
+		var counter =1;
+		 $.each(obj, function(index, value) {
+				if(counter > 1) {
+				services=value+","+" "+services ;
+				}else{
+				services=value+" "+services ;
+				}
+				counter++;
+		});
+		$('#showservice').html(services);
+	}
+	});
+}
+function displayStaffoffer(){
+	var counter=0;
+	$('#showstaffoffer').html('');
+	$('#showstaff').html('');
+	staffArr = new Array();
+	$("input:checkbox[class=staff_checkbox_offer]:checked").each(function(){
+		var value1= $(this).val();
+		staffArr.push(value1);
+		counter=counter +1;
+	});
+	if(counter  != 0){
+		$('#showstaffoffer').html(counter+" Staff selected");
+	}else{
+		$('#showstaffoffer').html("Any Staff");
+	}
+	var json_staffArr = JSON.stringify(staffArr, null, 2);
+	$.ajax({
+		type: 'POST',
+		datatype:'json',
+		url:"<?php echo site_url('admin/coupon/showTextStaffAjax'); ?>",
+		data:"json_staffArr="+json_staffArr,
+		success:function(data){
+				var obj = jQuery.parseJSON(data);
+				var staff ="";
+				var counter =1;
+				$.each(obj, function(index, value){
+					if(counter > 1) {
+						staff=value+","+" "+staff;
+					}else{
+						staff=value+" "+staff;
+					}
+					counter++;
+				});
+				$('#showstaff').html(staff);
+		}
+	});
+}
+function displayDateoffer(){
+	var counter=0;
+	var dateshow="";
+	$('#showdateoffer').html('');
+	$('#showWeekday').html("");
+	$("input:checkbox[class=date_checkbox_offer]:checked").each(function(){
+		var value1= $(this).val();
+		counter=counter +1;
+		if(value1==1){
+			if(dateshow!= ""){
+				dateshow+=", Sunday ";
+			}else{
+				dateshow+=" Sunday ";
+			}
+		}
+		if(value1==2){
+		    if(dateshow!= ""){
+				dateshow+=" , Monday ";
+			}else{
+				dateshow+=" Monday ";
+			}
+		}
+		if(value1==3){
+		    if(dateshow!= ""){
+				dateshow+=" , Tuesday ";
+			}else{
+				dateshow+=" Tuesday ";
+			}
+
+
+		}
+		if(value1==4){
+		    if(dateshow!= ""){
+				dateshow+=" , Wednesday ";
+			}else{
+				dateshow+=" Wednesday ";
+			}
+
+		}
+		if(value1==5){
+			if(dateshow!= ""){
+				dateshow+=" , Thursday ";
+			}else{
+				dateshow+=" Thursday ";
+			}
+		}
+
+		if(value1==6){
+			if(dateshow!= ""){
+				dateshow+=" , Friday ";
+			}else{
+				dateshow+=" Friday ";
+			}
+		}
+		if(value1==7){
+			if(dateshow!= ""){
+				dateshow+=" , Saturday ";
+			}else{
+				dateshow+=" Saturday ";
+			}
+		}
+	});
+	if(counter  != 0){
+		$('#showdateoffer').html(counter+" Date selected");
+	}
+	$('#showWeekday').html(dateshow);
+}
+function hideCreateDiscount(){
+	$('#discountcoupontable').hide();
+	$('#discount_display_text').hide();
+	$("#first_time_use_only").attr('checked', false);
+	$("#one_time_use_only").attr('checked', false);
+	$("span.error").html('');
+}
+function hideCreateOffer(){
+	$('#offertable').hide();
+	$('#discount_display_text').hide();
+	$("#first_time_use_only_offer").attr('checked', false);
+	$("#one_time_use_only_offer").attr('checked', false);
+	$("span.error").html('');
+}
+function displayTextHeadingDiscount(value){
+	$('#display_heading').html(value);
+}
+function displayDiscount(value){
+	$('#discount_percent').html("");
+	var selectedval = $("#discount_amnt_setting option:selected").text();
+		if(selectedval =='%'){
+			$('#discount_percent_type').html(selectedval+' Off');
+			$('#discount_percent').html(value);
+		}else{
+			$('#discount_percent_type_rs').html(selectedval);
+			$('#discount_percent').html(value+' Off');
+		}
+	$('#discount_percent').css('font-weight','bold');
+}
+function showstartdate(){
+	setTimeout(function(){
+		var date = $("#aplcbl_date_from").val();
+		$('#showstartdate').html('');
+		if( date ==''){
+			 $('#showstartdate').html('from Any Date');
+		}else{
+			$('#showstartdate').html("from " + date);
+		}
+		$('#showstartdate').css('font-weight','bold');
+	},300);
+}
+function showstartofferdate(){
+	setTimeout(function(){
+		var date = $("#aplcbl_date_from_offer").val();
+		$('#showstartdate').html('');
+		if( date ==''){
+			 $('#showstartdate').html('from Any Date');
+		}else{
+			$('#showstartdate').html("from " + date);
+		}
+		$('#showstartdate').css('font-weight','bold');
+	},300);
+}
+function showenddate(){
+	setTimeout(function(){
+		var date = $("#aplcbl_date_to").val();
+		$('#showenddate').html('');
+		if( date ==''){
+			$('#showenddate').html('to Any Date');
+		}else{
+			$('#showenddate').html("to " + date);
+		}
+		$('#showenddate').css('font-weight','bold');
+	},300);
+}
+function showendofferdate(){
+	setTimeout(function(){
+		var date = $("#aplcbl_date_to_offer").val();
+		$('#showenddate').html('');
+		if( date ==''){
+			$('#showenddate').html('to Any Date');
+		}else{
+			$('#showenddate').html("to " + date);
+		}
+		$('#showenddate').css('font-weight','bold');
+	},300);
+}
+function showstarttime(){
+	setTimeout(function(){
+		var date = $("#aplcbl_hour_from").val();
+		$('#showstarttime').html("");
+		if( date ==''){
+			$('#showstarttime').html("between Any Time");
+		}else{
+			$('#showstarttime').html(" between " + date);
+		}
+		$('#showstarttime').css('font-weight','bold');
+	},300);
+}
+function showstartoffertime(){
+	setTimeout(function(){
+		var date = $("#aplcbl_hour_from_offer").val();
+		$('#showstarttime').html("");
+		if( date ==''){
+			$('#showstarttime').html("between Any Time");
+		}else{
+			$('#showstarttime').html(" between " + date);
+		}
+		$('#showstarttime').css('font-weight','bold');
+	},300);
+}
+function showendtime(){	
+	setTimeout(function(){
+		var date = $("#aplcbl_hour_to").val();
+		$('#showendtime').html("");
+		if( date ==''){
+			$('#showendtime').html("and  Any Time");
+		}else{
+			$('#showendtime').html("and " + date);
+		}
+		$('#showendtime').css('font-weight','bold');
+	},300);
+}
+function showendoffertime(){
+	setTimeout(function(){
+		var date = $("#aplcbl_hour_to_offer").val();
+		$('#showendtime').html("");
+		if( date ==''){
+			$('#showendtime').html("and  Any Time");
+		}else{
+			$('#showendtime').html("and " + date);
+		}
+		$('#showendtime').css('font-weight','bold');
+	},300);
+}
+function showstartdateoffer(){
+	setTimeout(function(){
+		var date = $("#aplcbl_date_from_offer").val();
+		$('#showstartdate').html(date);
+		$('#showstartdate').css('font-weight','bold');
+	},300);
+}
+function showenddateoffer(){
+	setTimeout(function () {
+		var date = $("#aplcbl_date_to_offer").val();
+		$('#showenddate').html(date);
+		$('#showenddate').css('font-weight','bold');
+	},300);
+}
+function showstarttimeoffer(){
+	setTimeout(function(){
+		var date = $("#aplcbl_hour_from_offer").val();
+		$('#showstarttime').html(date);
+		$('#showstarttime').css('font-weight','bold');
+	},300);
+}
+function showendtimeoffer(){
+	setTimeout(function (){
+		var date = $("#aplcbl_hour_to_offer").val();
+		$('#showendtime').html(date);
+		$('#showendtime').css('font-weight','bold');
+	},300);
+}
+function worksover(value){
+	if( value ==''){
+		$('#enddate').html(value);
+	}else{
+		$('#enddate').html("<li>Redeemable over  <?php echo $this->session->userdata('local_admin_currency_type'); ?>" + value+"</li>");
+	}
+	$('#enddate').css('font-weight','bold');
+}
+function firsttimeuse(){
+	$('#firsttime').html("");
+	$('#firsttimeli').hide();
+		$("input:checkbox[name=first_time_use_only]:checked").each(function(){
+			$('#firsttime').html("Works on first appointment only");
+			$('#firsttimeli').show();
+		});
+}
+function onetimeuse(){
+	$('#onettime').html("");
+	$('#onetimeli').hide();
+		$("input:checkbox[name=one_time_use_only]:checked").each(function(){
+			$('#onettime').html("Coupon can be used only once.");
+			$('#onetimeli').show();
+		});
+}
+function firsttimeuseoffer(){
+	$('#firsttime').html("");
+	$('#firsttimeli').hide();
+		$("input:checkbox[name=first_time_use_only_offer]:checked").each(function(){
+			$('#firsttime').html("Works on first appointment only");
+			$('#firsttimeli').show();
+		});
+}
+function onetimeuseoffer(){
+	$('#onettime').html("");
+	$('#onetimeli').hide();
+		$("input:checkbox[name=one_time_use_only_offer]:checked").each(function(){
+			$('#onettime').html("Coupon can be used only once.");
+			$('#onetimeli').show();
+		});
+}
+function displaypercentage(value){
+	$('#discount_percent_type_rs').html("");
+	$('#discount_percent_type').html("");
+		if(value == 1){
+			$('#discount_percent_type').html("% Off");
+		}else{
+			$('#discount_percent_type_rs').html('<?php 	echo $this->session->userdata('local_admin_currency_type'); ?> ');
+			$('#discount_percent_type').html(' Off');
+		}
+}
+</script>

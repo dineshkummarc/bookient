@@ -1,0 +1,1 @@
+<div class="er-msg-div"><?php echo $msg; ?></div>

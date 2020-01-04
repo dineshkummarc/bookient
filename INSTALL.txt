@@ -1,0 +1,159 @@
+Installation Requirements:
+
+-- LAMP-system --
+
+(eq. Debian 8 (Jessie), Apache2, PHP 5.6, Latest MySQL/MariaDB.)
+
+
+First setup server environment:
+------------------------------------------------------------------------------
+===================================================================
+Apache2:
+*******************************************************************
+/* Basic installation with following modules */
+-> Install Mod-rewrite 		(a2enmod rewrite)
+-> Install Mod-actions 		(a2enmod actions)
+-> Install Mod-reqtimeout 	(a2enmod reqtimeout)
+-> Install Mod-dav_fs 		(a2enmod dav_fs)
+-> Install Mod-cgi 		(a2enmod cgi)
+
+*******************************************************************
+// Separate your www - alias in Apache config and forward * to root
+/* Example (Docroot /var/www/html) (change yourdomain.com) */
+
+<VirtualHost *:80>
+        ServerName  www.yourdomain.com
+        DocumentRoot /var/www/html/www
+        <Directory /var/www/html/www>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error_www.log
+        LogLevel warn
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+<VirtualHost *:80>
+        ServerName  yourdomain.com
+        ServerAlias *.yourdomain.com
+
+        DocumentRoot /var/www/html
+        <Directory /var/www/html/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error_yourdomain.log
+        LogLevel warn
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+*******************************************************************
+
+===================================================================
+PHP:
+/* Basic installation with following modules */
+-> Install php5-mysqlnd  	(apt-get install php5-mysqlnd)
+-> Install php5-intl 		(apt-get install php5-intl)
+-> Install php5-mcrypt 		(apt-get install php5-mcrypt)
+-> Install php5-recode 		(apt-get install php5-recode)
+-> Install php5-tidy 		(apt-get install php5-tidy)
+-> Install php5-pspell 		(apt-get install php5-pspell)
+-> Install php5-xsl 		(apt-get install php5-xsl)
+-> Install php5-imagick 	(apt-get install php5-imagick)
+-> Install php5-sqlite 		(apt-get install php5-sqlite)
+-> Install php5-xmlrpc		(apt-get install php5-xmlrpc)
+
+// enable short tags in php.ini
+short_open_tag=On
+===================================================================
+
+MySQL:
+/* Default installation */
+-> You must have mysql root access.
+===================================================================
+Other:
+/* Make sure that PHP can send emails */
+===================================================================
+------------------------------------------------------------------------------
+
+---------------------------------------- NOTICE ----------------------------------------
+You need to have root domain (yourdomain.com) to enable automated alias creation.
+-> Forward in your DNS-settings all your aliases to your server (*.yourdomain.com)
+---------------------------------------- NOTICE ----------------------------------------
+
+Bookient - installation:
+------------------------------------------------------------------------------
+1. Extract files and set your environment variables to following files:
+(change yourdomain.com)
+
+In application/config/config.php
+edit following:
+$config['base_url']             = $urm.$HostName.'/';
+$config['super_base_url_back']  = $urm.'yourdomain.com/superadmin/dashboard';
+$config['super_base_url']       = $urm.'admin.yourdomain.com/superadmin/dashboard';
+$config['admin_base_url']       = $urm.$HostName.'/admin/calender';
+$config['protocol']             = $urm;
+$config['base_host']            = 'yourdomain.com';
+$config['admin_host']           = 'admin.yourdomain.com';
+$config['base_domain']          = 'yourdomain';
+
+===================================================================
+In application/config/routes.php
+edit following:
+$HostNameFrRouter != "yourdomain.com" &&  $HostNameFrRouter != "www.yourdomain.com" && $HostNameFrRouter != "register.yourdomain.com" 
+===================================================================
+
+In application/config/database.php
+edit following:
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'bookient';
+$db['default']['password'] = 'bookientpass';
+$db['default']['database'] = 'bookient';
+$db['stored_procedure']['hostname'] = 'localhost';
+$db['stored_procedure']['username'] = 'bookient';
+$db['stored_procedure']['password'] = 'bookientpass';
+$db['stored_procedure']['database'] = 'bookient';
+
+===================================================================
+*******************************************************************
+2. Set up DB
+/* Insert MySQL - database*/
+
+// create db (eq. bookient)
+mysqladmin -u root -p create bookient
+
+// From /SQL/ - folder insert bookient.sql (as root)
+mysql -u root -p bookient < bookient.sql
+
+// add user bookient@localhost (pass: bookientpass) with following rights:
+// In sql-console:
+CREATE USER 'bookient'@'localhost' IDENTIFIED BY 'bookientpass';GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON *.* TO 'bookient'@'localhost' IDENTIFIED BY 'bookientpass' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+
+*******************************************************************
+
+3. Login to superadmin with superadmin-credentials
+Open browser http://admin.yourdomain.com/superadmin/dashboard
+Login: notreal@bookient.com
+Pass: superbookient
+
+*******************************************************************
+
+4. You can create your www-page into /www/
+
+*******************************************************************
+
+5. for Google & Facebook-login you have to set your keys:
+	
+(asset/front_js/frontFacebook.js SET appId to your facebook App ID)
+
+*******************************************************************
+
+6. As your customers enter yourdomain.com (without www) or register.yourdomain.com 
+registration form is showed for new customer creation.
+
+*******************************************************************
+------------------------------------------------------------------------------
+
+That's all

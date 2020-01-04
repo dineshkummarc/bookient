@@ -1,0 +1,33 @@
+<?php
+$lang['headign-main']  							= "Clients Reports";
+$lang['registration_date_range']  				= "Registration Date Range";
+$lang['from']  									= "From:";
+$lang['to']  									= "To:";
+$lang['last_week']  							= "Last week";
+$lang['last_month']  							= "Last month";
+$lang['all']  									= "All";
+$lang['tags']  									= "Tags";
+$lang['status']  								= "Status";
+$lang['verified']  								= "Verified";
+$lang['unverified']  							= "Unverified";
+$lang['advance_options']  						= "Advance Options";
+$lang['get_all_user']  							= "Get All User:";
+$lang['user_with_no_appointment']  				= "Users With no appiontment:";
+$lang['not_booked_between']  					= "Not booked between:";
+$lang['to']  									= "to";
+$lang['last_week']  							= "Last Week";
+$lang['last_15_days']  							= "Last 15 Days";
+$lang['coming_week']  							= "Coming Week";
+$lang['basic_search']  							= "Basic Search";
+$lang['advance_search']  						= "Advance Search";
+$lang['search']  								= "Search";
+$lang['client_list']  							= "Client List";
+$lang['sl_no']  								= "Sl. No.";
+$lang['client_name']  							= "Client Name";
+$lang['cntct_info']  							= "Contact Info";
+$lang['prnt_page']  							= "Print Page";
+$lang['xport_2_excel']  						= "Export To Excel";
+$lang['last_booked']  							= "Last Booked";
+$lang['to_dt_shld_b_grtr_thn_frm_dt']  			= "To Date should be greater than From Date.";
+$lang['end_dt_shld_b_grtr_thn_strt_dt']  		= "End Date should be greater than Start Date.";
+?>

@@ -1,0 +1,33 @@
+<?php
+$lang['headign-main']  							= "Asiakasraportti";
+$lang['registration_date_range']  				= "Rekisteröintipäivämäärät";
+$lang['from']  									= "Alkaen:";
+$lang['to']  									= "Päättyen:";
+$lang['last_week']  							= "Edeltävä viikko";
+$lang['last_month']  							= "Edeltävä kuukausi";
+$lang['all']  									= "Kaikki";
+$lang['tags']  									= "Leimat"; 
+$lang['status']  								= "Tila"; 
+$lang['verified']  								= "Vahvistettu";
+$lang['unverified']  							= "Vahvistamaton";
+$lang['advance_options']  						= "Tarkemmat vaihtoehdot";
+$lang['get_all_user']  							= "Hae kaikki käyttäjät:"; 
+$lang['user_with_no_appointment']  				= "Käyttäjät, joilla ei ajanvarausta:";
+$lang['not_booked_between']  					= "Ei varattu aikavälillä:";
+$lang['to']  									= "päättyen";
+$lang['last_week']  							= "Edeltävä viikko";
+$lang['last_15_days']  							= "Edeltävät 15 päivää";
+$lang['coming_week']  							= "Tuleva viikko";
+$lang['basic_search']  							= "Perushaku";
+$lang['advance_search']  						= "Tarkennettu haku";
+$lang['search']  								= "Hae";
+$lang['client_list']  							= "Asiakaslista";
+$lang['sl_no']  								= "Sl. No."; //?
+$lang['client_name']  							= "Asiakkaan nimi";
+$lang['cntct_info']  							= "Yhteystiedot";
+$lang['prnt_page']  							= "Tulosta sivu";
+$lang['xport_2_excel']  						= "Siirrä Exceliin";
+$lang['last_booked']  							= "Viimeksi varattu";
+$lang['to_dt_shld_b_grtr_thn_frm_dt']  			= "Alkaen-päivämäärän oltava ennen päättyen-päivämäärää.";
+$lang['end_dt_shld_b_grtr_thn_strt_dt']  		= "Aloituspäivämäärän oltava ennen lopetuspäivämäärää.";
+?>
